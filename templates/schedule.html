@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<title>E-Naplo - Órarend</title>
+<h2>{{ student_name }} Órarendje</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Óra</th>
+            <th>Hétfő</th>
+            <th>Kedd</th>
+            <th>Szerda</th>
+            <th>Csütörtök</th>
+            <th>Péntek</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set days = [monday, tuesday, wednesday, thursday, friday] %}
+        {% set max_lessons = 8 %}  <!-- Assuming 8 lessons per day -->
+        {% for i in range(1, max_lessons + 1) %}
+            <tr>
+                <td>{{ i }}. óra</td>
+                {% for day in days %}
+                    <td class="class-cell">
+                        {% for lesson in day %}
+                            {% if lesson.index == i %}
+                                <div class="class-item">
+                                    {{ lesson.name }}
+                                    <div class="hover-links">
+                                        <md-text-button onclick="openDialog('{{ lesson.name }}', '', '{{ lesson.room }}', '{{ lesson.index }}', 'False')">
+                                            Részletek
+                                        </md-text-button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Óra Részletei Dialógus -->
+<md-dialog id="dialog">
+  <div slot="headline">
+    Óra Részletei
+  </div>
+  <div slot="content">
+    <p><strong>Tantárgy:</strong> <span id="dialog-subject"></span></p>
+    <p><strong>Tanár:</strong> <span id="dialog-teacher"></span></p>
+    <p><strong>Terem:</strong> <span id="dialog-room"></span></p>
+    <p><strong>Hanyadik óra:</strong> <span id="dialog-lesson"></span></p>
+    <p><strong>Elmarad:</strong> <span id="dialog-isCanceled"></span></p>
+  </div>
+  <div slot="actions">
+    <md-text-button id="closeButton">Ok</md-text-button>
+  </div>
+</md-dialog>
+
+<script>
+const dialog = document.getElementById('dialog');
+
+async function openDialog(subject, teacher, room, lesson, isCanceled) {
+    document.getElementById('dialog-subject').textContent = subject;
+    document.getElementById('dialog-teacher').textContent = teacher;
+    document.getElementById('dialog-room').textContent = room;
+    document.getElementById('dialog-lesson').textContent = lesson;
+    document.getElementById('dialog-isCanceled').textContent = isCanceled === 'True' ? 'Igen' : 'Nem';
+    dialog.setAttribute('open', '');
+}
+
+const closeButton = document.getElementById('closeButton');
+closeButton.addEventListener('click', async () => {
+    await dialog.close();
+    dialog.removeAttribute('open');
+});
+</script>
+
+
+<!-- Óra Hozzáadás Dialógus -->
+<md-dialog id="addDialog">
+    <div slot="headline">
+        Óra Hozzáadása
+    </div>
+    <div slot="content">
+        <form id="addForm">
+            <label for="addSubject">Tantárgy:</label>
+            <md-filled-text-field id="addSubject"></md-filled-text-field>
+            <label for="addTeacher">Tanár:</label>
+            <md-filled-text-field id="addTeacher"></md-filled-text-field>
+            <label for="addRoom">Terem:</label>
+            <md-filled-text-field id="addRoom"></md-filled-text-field>
+            <label for="addLesson">Hanyadik óra:</label>
+            <md-filled-text-field id="addLesson" type="text"></md-filled-text-field>
+        </form>
+    </div>
+    <div slot="actions">
+        <md-text-button onclick="addHour()">Hozzáadás</md-text-button>
+        <md-text-button onclick="closeAddDialog()">Mégse</md-text-button>
+    </div>
+</md-dialog>
+
+<!-- Óra Szerkesztés Dialógus -->
+<md-dialog id="editDialog">
+    <div slot="headline">
+        Óra Szerkesztése
+    </div>
+    <div slot="content">
+        <form id="editForm">
+            <label for="editSubject">Tantárgy:</label>
+            <md-filled-text-field id="editSubject"></md-filled-text-field>
+            <label for="editTeacher">Tanár:</label>
+            <md-filled-text-field id="editTeacher"></md-filled-text-field>
+            <label for="editRoom">Terem:</label>
+            <md-filled-text-field id="editRoom"></md-filled-text-field>
+            <label for="editLesson">Hanyadik óra:</label>
+            <md-filled-text-field id="editLesson" type="text"></md-filled-text-field>
+        </form>
+    </div>
+    <div slot="actions">
+        <md-text-button onclick="editHour()">Mentés</md-text-button>
+        <md-text-button onclick="closeEditDialog()">Mégse</md-text-button>
+    </div>
+</md-dialog>
+
+<style>
+    .class-cell {
+        position: relative;
+        transition-duration: 500ms;
+        transition-property: margin-right;
+        
+    }
+    
+    .class-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .hover-links {
+        display: none;
+        background-color: var(--md-sys-color-surface-container);
+    }
+
+    /* A tantárgy neve eltűnik, ha a hover-linkek megjelennek */
+
+    /* A hover-links csak akkor látható, amikor az egér a cellán van */
+    .class-cell:hover .hover-links {
+        display: block; /* Megjelenik, amikor az egér a cellán van */   
+    }
+</style>
+
+<!-- <script>
+const dialog = document.getElementById('dialog');
+const addDialog = document.getElementById('addDialog');
+const editDialog = document.getElementById('editDialog');
+
+async function openDialog(subject, teacher, room, lesson, iscanceled) {
+    document.getElementById('dialog-subject').textContent = subject;
+    document.getElementById('dialog-teacher').textContent = teacher;
+    document.getElementById('dialog-room').textContent = room;
+    document.getElementById('dialog-lesson').textContent = lesson;
+    document.getElementById('dialog-isCanceled').textContent = iscanceled === 'True' ? 'Igen' : 'Nem';
+    dialog.setAttribute('open', ''); // Megnyitja a dialógust
+}
+
+const closeButton = document.getElementById('closeButton');
+closeButton.addEventListener('click', async () => {
+    await dialog.close(); // Zárja a dialógust
+    dialog.removeAttribute('open'); // Eltávolítja az open attribútumot
+});
+
+function openAddDialog(day, timeslot) {
+    addDialog.setAttribute('open', '');
+    addDialog.setAttribute('data-day', day);  // Nap mentése a dialógushoz
+    addDialog.setAttribute('data-timeslot', timeslot);  // Óra helyének mentése
+}
+
+function openEditDialog(subject, teacher, room, time, isCanceled) {
+    document.getElementById('editSubject').value = subject;
+    document.getElementById('editTeacher').value = teacher;
+    document.getElementById('editRoom').value = room;
+    document.getElementById('editLesson').value = time; // Frissítve
+
+    // Itt például meghatározhatod a lesson értéket a time alapján, ha az már ismert
+    const lesson = getLessonFromTime(time);
+    document.getElementById('editLesson').value = lesson; // Lesson frissítése
+
+    editDialog.setAttribute('data-time', time);
+    editDialog.setAttribute('data-isCanceled', isCanceled);
+
+    editDialog.setAttribute('open', ''); // Megnyitja a dialógust
+}
+
+function getLessonFromTime(time) {
+    const timeslots = {
+        "09:00 - 10:00": "2.",
+        // Add hozzá a többi időintervallumot és a hozzájuk tartozó lesson értékeket
+    };
+
+    return timeslots[time] || ""; // Visszaadja a lesson értéket vagy üres stringet
+}
+
+
+
+function closeAddDialog() {
+    addDialog.removeAttribute('open'); // Zárja a hozzáadási dialógust
+}
+
+function closeEditDialog() {
+    editDialog.removeAttribute('open'); // Zárja a szerkesztési dialógust
+}
+
+async function addHour() {
+    const subject = document.getElementById('addSubject').value;
+    const teacher = document.getElementById('addTeacher').value;
+    const room = document.getElementById('addRoom').value;
+    const lesson = document.getElementById('addLesson').value;
+    const day = addDialog.getAttribute('data-day');  // Nap eltárolása
+    const timeslot = addDialog.getAttribute('data-timeslot');  // Óra helye eltárolása
+
+    // AJAX kérés a szerver felé
+    const response = await fetch('/add_class', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            subject: subject,
+            teacher: teacher,
+            room: room,
+            day: day,
+            lesson: timeslot
+        })
+    });
+
+    if (response.ok) {
+        console.log('Óra sikeresen hozzáadva');
+        location.reload();  // Frissítjük az oldalt
+    } else {
+        console.error('Hiba történt az óra hozzáadásakor');
+    }
+
+    closeAddDialog(); // Dialógus zárása
+}
+
+async function editHour() {
+    const subject = document.getElementById('editSubject').value;
+    const teacher = document.getElementById('editTeacher').value;
+    const room = document.getElementById('editRoom').value;
+    const time = document.getElementById('editLesson').value; // Maradjon így
+
+    const isCanceled = editDialog.getAttribute('data-isCanceled') === 'true'; 
+
+    const lesson = getLessonFromTime(time); // Lesson meghatározása
+
+    const response = await fetch('/edit_class', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            originalSubject: subject,
+            updatedClass: {
+                subject: subject,
+                teacher: teacher,
+                room: room,
+                time: time,
+                lesson: lesson, // Lesson hozzáadása
+                isCanceled: isCanceled
+            }
+        })
+    });
+
+    if (response.ok) {
+        console.log('Óra sikeresen frissítve');
+        location.reload();
+    } else {
+        console.error('Hiba történt az óra frissítésekor');
+    }
+
+    closeEditDialog();
+}
+
+
+</script> -->
+
+{% endblock %}

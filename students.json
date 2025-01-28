@@ -1,0 +1,271 @@
+{
+    "students": [
+        {
+            "id": 1,
+            "username": "kb",
+            "realname": "Korompay Bertalan",
+            "password": "123",
+            "grades": [
+                {
+                    "subject": "Matematika",
+                    "marks": [
+                        {
+                            "grade": 3,
+                            "date": "2024-10-10",
+                            "lesson": "Unit 11",
+                            "desc": "Műveletek"
+                        },
+                        {
+                            "grade": 4,
+                            "date": "2024-10-11",
+                            "lesson": "3. lecke",
+                            "desc": "Műveletek"
+                        }
+                    ]
+                },
+                {
+                    "subject": "Fizika",
+                    "marks": [
+                        {
+                            "grade": 5,
+                            "date": "2024-10-10",
+                            "lesson": "Unit 11",
+                            "desc": "Eredő erő és Newton féle törvények"
+                        }
+                    ]
+                },
+                {
+                    "subject": "IKT Projektmunka",
+                    "marks": [
+                        {
+                            "grade": 5,
+                            "date": "2024-10-10",
+                            "lesson": "1. lecke",
+                            "desc": "Projektmunka"
+                        }
+                    ]
+                }
+            ],
+            "schedule": [
+                {
+                    "day": "Monday",
+                    "subject": "Irodalom",
+                    "time": "09:00 - 10:00",
+                    "lesson": "2.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Monday",
+                    "subject": "Irodalom",
+                    "time": "09:00 - 10:00",
+                    "lesson": "3.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Monday",
+                    "subject": "Testnevelés A",
+                    "time": "09:00 - 10:00",
+                    "lesson": "4.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Monday",
+                    "subject": "Történelem",
+                    "time": "09:00 - 10:00",
+                    "lesson": "5.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Monday",
+                    "subject": "Matematika",
+                    "time": "09:00 - 10:00",
+                    "lesson": "6.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Tuesday",
+                    "subject": "Hálózatok 2.",
+                    "time": "08:00 - 09:00",
+                    "lesson": "1.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Tuesday",
+                    "subject": "Hálózatok 2.",
+                    "time": "08:00 - 09:00",
+                    "lesson": "2.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Tuesday",
+                    "subject": "Szakmai Angol",
+                    "time": "08:00 - 09:00",
+                    "lesson": "3.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Tuesday",
+                    "subject": "Szakmai Angol",
+                    "time": "08:00 - 09:00",
+                    "lesson": "4.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Tuesday",
+                    "subject": "Hálózatok 2.",
+                    "time": "08:00 - 09:00",
+                    "lesson": "5.",
+                    "isCanceled": true,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Tuesday",
+                    "subject": "Hálózatok 2.",
+                    "time": "08:00 - 09:00",
+                    "lesson": "6.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Tuesday",
+                    "subject": "Szakmai Angol",
+                    "time": "08:00 - 09:00",
+                    "lesson": "7.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Wednesday",
+                    "subject": "Angol (emelt)",
+                    "time": "08:00 - 09:00",
+                    "lesson": "1.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Wednesday",
+                    "subject": "Angol (emelt)",
+                    "time": "08:00 - 09:00",
+                    "lesson": "2.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Wednesday",
+                    "subject": "Matematika",
+                    "time": "08:00 - 09:00",
+                    "lesson": "3.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Wednesday",
+                    "subject": "Osztályfönöki",
+                    "time": "08:00 - 09:00",
+                    "lesson": "4.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Wednesday",
+                    "subject": "Történelem",
+                    "time": "08:00 - 09:00",
+                    "lesson": "5.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Wednesday",
+                    "subject": "Irodalom",
+                    "time": "08:00 - 09:00",
+                    "lesson": "6.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Wednesday",
+                    "subject": "Testnevelés A",
+                    "time": "08:00 - 09:00",
+                    "lesson": "7.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "day": "Wednesday",
+                    "subject": "Magyar Nyelvtan",
+                    "time": "08:00 - 09:00",
+                    "lesson": "8.",
+                    "isCanceled": false,
+                    "teacher": "minta tanár",
+                    "room": "137"
+                },
+                {
+                    "subject": "Matematika",
+                    "teacher": "Pálfi Antalné",
+                    "room": "137",
+                    "day": "Thursday",
+                    "lesson": "1.",
+                    "isCanceled": false
+                },
+                {
+                    "subject": "Matematika",
+                    "teacher": "Nénike",
+                    "room": "127",
+                    "day": "Thursday",
+                    "lesson": "2.",
+                    "isCanceled": false
+                },
+                {
+                    "subject": "Matematika",
+                    "teacher": "Nénike",
+                    "room": "127",
+                    "day": "Friday",
+                    "lesson": "1.",
+                    "isCanceled": false
+                }
+            ],
+            "assessments": [
+                {
+                    "subject": "IKT Projektmunka",
+                    "topic": "Prjektmunka - Windows Server 2016 Active Directory és Csoportházirend kezelése",
+                    "date": "2024-10-10",
+                    "grade": null
+                },
+                {
+                    "subject": "IKT Projektmunka",
+                    "topic": "Prjektmunka - Windows Server 2016 Active Directory és Csoportházirend kezelése",
+                    "date": "2024-10-10",
+                    "grade": null
+                }
+            ]
+        }
+    ]
+}

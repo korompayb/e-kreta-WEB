@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>E-Naplo - Jegyek</title>
+<h2>{{ student_name }} jegyei</h2>
+<md-chip-set>
+    <md-assist-chip label="Tantárgy"></md-assist-chip>
+    <md-filter-chip selected label="Sorba rendez"></md-filter-chip>
+    <md-input-chip label="Új Tantárgy"></md-input-chip>
+    <md-suggestion-chip label="Ajánlások"></md-suggestion-chip>
+  </md-chip-set>
+  
+<table>
+    <thead>
+        <tr>
+            <th>Tantárgy</th>
+            <th>Érdemjegy</th>
+            <th>Dátum</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for grade in grades %}
+        <tr>
+            <td>{{ grade.lesson_name }}</td>
+            <td>
+                <a href="javascript:void(0);" 
+                   onclick="openDialog('{{ grade.grade_value }}', '{{ grade.grade_date }}', '{{ grade.topic if grade.topic else 'Nincs leírás' }}', '{{ grade.grade_type }}', '')">
+                    {{ grade.grade_value }}
+                </a>
+            </td>
+            <td>{{ grade.grade_date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<md-dialog id="dialog">
+  <div slot="headline">
+    Jegy Részletei
+  </div>
+  <div slot="content">
+    <p><strong>Érdemjegy:</strong> <span id="dialog-grade"></span></p>
+    <p><strong>Dátum:</strong> <span id="dialog-date"></span></p>
+    <p><strong>Lecke:</strong> <span id="dialog-lesson"></span></p>
+    <p><strong>Leírás:</strong> <span id="dialog-desc"></span></p>
+  </div>
+  <div slot="actions">
+    <md-text-button form="form-id" id="closeButton">Ok</md-text-button>
+  </div>
+</md-dialog>
+
+<script>
+const dialog = document.getElementById('dialog');
+
+async function openDialog(grade, date, lesson, desc) {
+    document.getElementById('dialog-grade').textContent = grade;
+    document.getElementById('dialog-date').textContent = date;
+    document.getElementById('dialog-lesson').textContent = lesson;
+    document.getElementById('dialog-desc').textContent = desc;
+    dialog.setAttribute('open', ''); // Megnyitja a dialógust
+}
+
+const closeButton = document.getElementById('closeButton');
+
+closeButton.addEventListener('click', async () => {
+    await dialog.close(); // Zárja a dialógust
+    dialog.removeAttribute('open'); // Eltávolítja az open attribútumot
+});
+</script>
+
+{% endblock %}

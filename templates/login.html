@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>E-Naplo - Bejelentkezés</title>
+
+<md-dialog id="loginDialog">
+    <div slot="headline">Bejelentkezés</div>
+    <form slot="content" id="form-id" method="POST" action="/login">
+        <md-filled-text-field id="username" label="Felhasználónév" name="username" required>
+            <md-icon-button slot="trailing-icon">
+                <md-icon>person</md-icon>
+            </md-icon-button>
+        </md-filled-text-field>
+
+        <md-filled-text-field label="Jelszó" name="password" type="password" required>
+            <md-icon-button toggle slot="trailing-icon">
+                <md-icon>visibility</md-icon>
+                <md-icon slot="selected">visibility_off</md-icon>
+            </md-icon-button>
+        </md-filled-text-field>
+
+        <md-filled-text-field label="Klikk azonosito" name="klik_id" type="text" required>
+            <md-icon-button toggle slot="trailing-icon">
+                <md-icon>school</md-icon>
+            </md-icon-button>
+        </md-filled-text-field>
+    </form>
+    <div slot="actions">
+        <md-text-button form="form-id" value="cancel" onclick="closeDialog()">Mégse </md-text-button>
+        <md-text-button form="form-id" value="submit">
+             <md-icon>send</md-icon>
+        </md-text-button>
+        
+    </div>
+</md-dialog>
+
+<script>
+    const dialog = document.getElementById('loginDialog');
+
+    window.addEventListener('load', async () => {
+        await dialog.show(); // Megnyitja a dialógust az oldal betöltésekor
+    });
+
+    // Funkció a dialógus bezárására
+    function closeDialog() {
+        dialog.close(); // A dialógus bezárása
+    }
+</script>
+
+{% endblock %}

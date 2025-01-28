@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&amp;display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.24/angular-material.min.css"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/"
+      }
+    }
+  </script>
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+  </style>
+  </style>
+  <script>
+    import '@material/web/button/filled-button.js';
+import '@material/web/button/outlined-button.js';
+import '@material/web/checkbox/checkbox.js';
+  </script>
+  <script type="module">
+    import * as d3 from 'https://esm.run/d3';
+    import '@material/web/all.js';
+    import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="nav-item {% if active_page == 'login' %} active {% endif %}" onclick="window.location.href='{{ url_for('login') }}'">
+            <md-icon slot="icon">home</md-icon>
+            Főoldal
+        </div>
+        <div class="nav-item {% if active_page == 'grades' %} active {% endif %}" onclick="window.location.href='{{ url_for('grades') }}'">
+            <md-icon slot="icon">grade</md-icon>
+            Jegyeim
+        </div>
+        <div class="nav-item {% if active_page == 'schedule' %} active {% endif %}" onclick="window.location.href='{{ url_for('schedule') }}'">
+            <md-icon slot="icon">calendar_month</md-icon>
+            Órarend
+        </div>
+        <div class="nav-item {% if active_page == 'assessments' %} active {% endif %}" onclick="window.location.href='{{ url_for('assessments') }}'">
+            <md-icon slot="icon">edit_document</md-icon>
+            Dolgozatok
+        </div>
+        <div class="nav-item {% if active_page == 'logout' %} active {% endif %}" onclick="window.location.href='{{ url_for('logout') }}'">
+            <md-icon slot="icon">logout</md-icon>
+            Kilépés
+        </div>
+        <md-fab class="mode-switch" variant="primary" data-label="Switch Theme" size="medium">
+            <md-icon slot="icon" aria-hidden="true" id="theme-icon">dark_mode</md-icon>
+        </md-fab>
+    </div>
+    
+    
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    
+       
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const switchButton = document.querySelector('.mode-switch');
+            const themeIcon = document.getElementById('theme-icon');
+    
+            // Function to toggle the dark and light modes
+            const toggleTheme = () => {
+                if (document.documentElement.classList.contains('dark-mode')) {
+                    document.documentElement.classList.remove('dark-mode');
+                    document.documentElement.classList.add('light-mode');
+                    themeIcon.textContent = 'light_mode'; // Change icon to light mode
+                    localStorage.setItem('theme', 'light'); // Save the theme in localStorage
+                } else {
+                    document.documentElement.classList.remove('light-mode');
+                    document.documentElement.classList.add('dark-mode');
+                    themeIcon.textContent = 'dark_mode'; // Change icon to dark mode
+                    localStorage.setItem('theme', 'dark'); // Save the theme in localStorage
+                }
+            };
+    
+            // Load the saved theme from localStorage
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                if (savedTheme === 'dark') {
+                    document.documentElement.classList.add('dark-mode');
+                    themeIcon.textContent = 'dark_mode';
+                } else {
+                    document.documentElement.classList.add('light-mode');
+                    themeIcon.textContent = 'light_mode';
+                }
+            } else {
+                // If no theme is saved, default to light mode
+                document.documentElement.classList.add('light-mode');
+                themeIcon.textContent = 'light_mode';
+            }
+    
+            // Event listener for the switch button
+            switchButton.addEventListener('click', toggleTheme);
+        });
+    </script>
+</body>
+</html>

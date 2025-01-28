@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>E-Naplo - Közelgő Dolgozatok</title>
+<h2>{{ student_name }} Közelgő Dolgozatai</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Tantárgy</th>
+            <th>Házi Feladat</th>
+            <th>Határidő</th>
+            <th>Feladás Dátuma</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for hw in homework %}
+        <tr>
+            <td>{{ hw.lesson_name }}</td>
+            <td>{{ hw.home_work_description | safe }}</td>
+            <td>{{ hw.deadline }}</td>
+            <td>{{ hw.date_added }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+
+<div class="edit-button">
+    <md-fab onclick="openAddDialog()" label=" Új Dolgozat Hozzáadása ">
+        <md-icon slot="icon"> edit</md-icon>
+    </md-fab>
+</div>
+
+<md-dialog class="add-dialog">
+    <span slot="headline">
+        <md-icon-button value="close" aria-label="Close dialog" onclick="closeAddDialog()">
+            <md-icon>close</md-icon>
+        </md-icon-button>
+        <span class="headline">Új Dolgozat Hozzáadása</span>
+    </span>
+    <form id="addForm" slot="content" method="dialog" class="add-content">
+        <div>
+            <md-filled-select id="newSubject">
+                <md-select-option value="" disabled selected>Válassz tantárgyat</md-select-option>
+                <md-select-option value="Matematika">Matematika</md-select-option>
+                <md-select-option value="Angol">Angol</md-select-option>
+                <md-select-option value="Irodalom">Irodalom</md-select-option>
+                <md-select-option value="Történelem">Történelem</md-select-option>
+                <md-select-option value="IKT Projektmunka">IKT Projektmunka</md-select-option>
+                <md-select-option value="Hálózatok 2.">Hálózatok 2.</md-select-option>
+                <md-select-option value="Szakmai Angol">Szakmai Angol</md-select-option>
+                <md-select-option value="Angol (emelt)">Angol (emelt)</md-select-option>
+                <md-select-option value="Magyar Nyelvtan">Magyar Nyelvtan</md-select-option>
+                <!-- További tantárgyak itt -->
+            </md-filled-select>
+        </div>
+        <div>
+            <md-filled-text-field label="Téma" id="newTopic" required></md-filled-text-field>
+        </div>
+        <div>
+            <md-filled-text-field label="Dátum" type="date" id="newDate" required></md-filled-text-field>
+        </div>
+    </form>
+    <div slot="actions">
+        <md-text-button form="addForm" value="reset" type="reset">Reset</md-text-button>
+        <div style="flex: 1"></div>
+        <md-text-button onclick="closeAddDialog()">Mégse</md-text-button>
+        <md-text-button id="addButton" onclick="addAssessment()">Hozzáadás</md-text-button>
+    </div>
+</md-dialog>
+
+<md-dialog type="alert" id="deleteDialog">
+    <div slot="headline">
+        Törlés Megerősítése
+    </div>
+    <div slot="content">
+        <p>Biztos benne, hogy törölni szeretné a következő dolgozatot?</p>
+        <p><strong>Tantárgy:</strong> <span id="deleteSubject"></span></p>
+        <p><strong>Téma:</strong> <span id="deleteTopic"></span></p>
+        <p><strong>Dátum:</strong> <span id="deleteDate"></span></p>
+    </div>
+    <div slot="actions">
+        <md-text-button id="confirmDeleteButton" onclick="confirmDelete()">Törlés</md-text-button>
+        <md-text-button onclick="closeDeleteDialog()">Mégse</md-text-button>
+    </div>
+</md-dialog>
+
+<script>
+// Dialógusok kezelése
+const addDialog = document.querySelector('.add-dialog');
+const deleteDialog = document.getElementById('deleteDialog');
+
+function openAddDialog() {
+    addDialog.setAttribute('open', '');
+}
+
+function closeAddDialog() {
+    addDialog.removeAttribute('open');
+}
+
+function openDeleteDialog(subject, topic, date) {
+    document.getElementById('deleteSubject').textContent = subject;
+    document.getElementById('deleteTopic').textContent = topic;
+    document.getElementById('deleteDate').textContent = date;
+    deleteDialog.setAttribute('open', '');
+}
+
+function closeDeleteDialog() {
+    deleteDialog.removeAttribute('open');
+}
+
+function addAssessment() {
+    const subject = document.getElementById('newSubject').value;
+    const topic = document.getElementById('newTopic').value;
+    const date = document.getElementById('newDate').value;
+
+    // Itt kellene implementálni a dolgozat hozzáadását (pl. AJAX hívás backend felé)
+    console.log(`Új dolgozat hozzáadva: ${subject}, ${topic}, ${date}`);
+
+    // Hozzáadás a backendhez
+    fetch('/add_assessment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ subject, topic, date })
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Dolgozat hozzáadva!');
+            // Lehet frissíteni a táblázatot vagy újratölteni az oldalt
+            location.reload(); // Egyszerű megoldás az oldal újratöltésére
+        } else {
+            console.error('Hiba történt a dolgozat hozzáadásakor');
+        }
+    })
+    .catch(error => {
+        console.error('Hiba történt:', error);
+    });
+
+    closeAddDialog(); // Zárja a dialógust
+}
+
+function confirmDelete() {
+    const subject = document.getElementById('deleteSubject').textContent;
+    const topic = document.getElementById('deleteTopic').textContent;
+    const date = document.getElementById('deleteDate').textContent;
+
+    // Itt kellene implementálni a dolgozat törlését (pl. AJAX hívás backend felé)
+    console.log(`Dolgozat törölve: ${subject}, ${topic}, ${date}`);
+
+    // Törlés a backendhez
+    fetch('/delete_assessment', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ subject, topic, date })
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Dolgozat törölve!');
+            location.reload(); // Frissíti az oldalt
+        } else {
+            console.error('Hiba történt a dolgozat törlésekor');
+        }
+    })
+    .catch(error => {
+        console.error('Hiba történt:', error);
+    });
+
+    closeDeleteDialog(); // Zárja a dialógust
+}
+</script>
+
+{% endblock %}
