@@ -24,7 +24,7 @@ git clone https://github.com/korompayb/e-kreta-WEB.git
 ```
 2. Telepítse a függőségeket
 ```bash
-pip install -r requirements
+pip install -r requirements.txt
 ```
 3. Indítsa el az alkalmazást
 ```bash
